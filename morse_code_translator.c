@@ -55,12 +55,12 @@ static void text_to_morse(const char *input) {
     int printed_any = 0;
     int after_space = 0;
 
-    printf("\\nMorse output:\\n");
-    for (i = 0; input[i] != '\\0'; i++) {
+    printf("\nMorse output:\n");
+    for (i = 0; input[i] != '\0'; i++) {
         unsigned char raw = (unsigned char)input[i];
         char ch = (char)toupper(raw);
 
-        if (ch == '\\n' || ch == '\\r') continue;
+        if (ch == '\n' || ch == '\r') continue;
 
         if (ch == ' ') {
             if (printed_any && !after_space) {
@@ -79,13 +79,13 @@ static void text_to_morse(const char *input) {
                 printed_any = 1;
                 after_space = 0;
             } else {
-                printf("\\nWarning: unsupported character '%c' was skipped.\\n", ch);
+                printf("\nWarning: unsupported character '%c' was skipped.\n", ch);
             }
         }
     }
 
     if (!printed_any) printf("(No translatable characters)");
-    printf("\\n\\n");
+    printf("\n\n");
 }
 
 static void morse_to_text(char *input) {
@@ -93,10 +93,10 @@ static void morse_to_text(char *input) {
     int printed_any = 0;
     int invalid_found = 0;
 
-    printf("\\nEnglish output:\\n");
+    printf("\nEnglish output:\n");
 
     /* Token convention: spaces separate letters; / separates words. */
-    token = strtok(input, " \\t\\r\\n");
+    token = strtok(input, " \t\r\n");
     while (token != NULL) {
         if (strcmp(token, "/") == 0) {
             if (printed_any) printf(" ");
@@ -111,14 +111,14 @@ static void morse_to_text(char *input) {
                 invalid_found = 1;
             }
         }
-        token = strtok(NULL, " \\t\\r\\n");
+        token = strtok(NULL, " \t\r\n");
     }
 
     if (!printed_any) printf("(No translatable codes)");
     if (invalid_found) {
-        printf("\\nNote: '?' means an unknown or invalid Morse code.");
+        printf("\nNote: '?' means an unknown or invalid Morse code.");
     }
-    printf("\\n\\n");
+    printf("\n\n");
 }
 
 int main(void) {
@@ -126,25 +126,25 @@ int main(void) {
     char choice_text[20];
     int choice;
 
-    printf("=====================================\\n");
-    printf("       MORSE CODE TRANSLATOR\\n");
-    printf("=====================================\\n");
+    printf("=====================================\n");
+    printf("       MORSE CODE TRANSLATOR\n");
+    printf("=====================================\n");
 
     while (1) {
-        printf("Choose an option:\\n");
-        printf("1. English Text -> Morse Code\\n");
-        printf("2. Morse Code -> English Text\\n");
-        printf("3. Clear / Reset\\n");
-        printf("4. Exit\\n");
+        printf("Choose an option:\n");
+        printf("1. English Text -> Morse Code\n");
+        printf("2. Morse Code -> English Text\n");
+        printf("3. Clear / Reset\n");
+        printf("4. Exit\n");
         printf("Enter choice: ");
 
         if (fgets(choice_text, sizeof(choice_text), stdin) == NULL) {
-            printf("\\nInput ended. Goodbye!\\n");
+            printf("\nInput ended. Goodbye!\n");
             break;
         }
 
         if (sscanf(choice_text, "%d", &choice) != 1) {
-            printf("Please enter a number from 1 to 4.\\n\\n");
+            printf("Please enter a number from 1 to 4.\n\n");
             continue;
         }
 
@@ -153,17 +153,17 @@ int main(void) {
             if (fgets(input, sizeof(input), stdin) == NULL) break;
             text_to_morse(input);
         } else if (choice == 2) {
-            printf("Enter Morse code (spaces between letters, / between words):\\n");
+            printf("Enter Morse code (spaces between letters, / between words):\n");
             if (fgets(input, sizeof(input), stdin) == NULL) break;
             morse_to_text(input);
         } else if (choice == 3) {
-            input[0] = '\\0';
-            printf("\\nInput/output reset. You can start again.\\n\\n");
+            input[0] = '\0';
+            printf("\nInput/output reset. You can start again.\n\n");
         } else if (choice == 4) {
-            printf("Thank you for using Morse Code Translator!\\n");
+            printf("Thank you for using Morse Code Translator!\n");
             break;
         } else {
-            printf("Invalid choice. Please enter 1, 2, 3, or 4.\\n\\n");
+            printf("Invalid choice. Please enter 1, 2, 3, or 4.\n\n");
         }
     }
 
